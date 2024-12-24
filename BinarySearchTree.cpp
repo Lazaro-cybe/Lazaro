@@ -1,14 +1,13 @@
+// Task 1: Binary Search Tree Implementation
 #include <iostream>
 using namespace std;
 
-// Node structure
 struct Node {
     int data;
     Node* left;
     Node* right;
 };
 
-// Create a new node
 Node* createNode(int value) {
     Node* newNode = new Node();
     newNode->data = value;
@@ -16,7 +15,6 @@ Node* createNode(int value) {
     return newNode;
 }
 
-// Insert a node into the BST
 Node* insertNode(Node* root, int value) {
     if (root == nullptr) return createNode(value);
 
@@ -28,7 +26,6 @@ Node* insertNode(Node* root, int value) {
     return root;
 }
 
-// In-order traversal (Left, Root, Right)
 void inorderTraversal(Node* root) {
     if (root == nullptr) return;
 
@@ -39,13 +36,16 @@ void inorderTraversal(Node* root) {
 
 int main() {
     Node* root = nullptr;
-    root = insertNode(root, 50);
-    insertNode(root, 30);
-    insertNode(root, 70);
-    insertNode(root, 20);
-    insertNode(root, 40);
-    insertNode(root, 60);
-    insertNode(root, 80);
+    int n, value;
+
+    cout << "Enter the number of nodes to insert: ";
+    cin >> n;
+
+    cout << "Enter " << n << " values: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> value;
+        root = insertNode(root, value);
+    }
 
     cout << "In-order Traversal: ";
     inorderTraversal(root);
