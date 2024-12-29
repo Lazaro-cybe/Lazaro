@@ -68,7 +68,7 @@ void deleteReminder() {
     }
 }
 
-// Function to search reminders by keyword (NEW FEATURE)
+// Function to search for reminders by task name
 void searchReminder() {
     if (reminders.empty()) {
         cout << "No reminders to search." << endl;
@@ -76,24 +76,64 @@ void searchReminder() {
     }
 
     string keyword;
-    cout << "Enter a keyword to search in tasks: ";
-    cin.ignore();  // Clear input buffer
+    cout << "Enter a keyword to search for in task names: ";
+    cin.ignore();
     getline(cin, keyword);
 
     bool found = false;
-    cout << "Search results:" << endl;
     for (size_t i = 0; i < reminders.size(); ++i) {
         if (reminders[i].task.find(keyword) != string::npos) {
-            found = true;
-            cout << i + 1 << ". Task: " << reminders[i].task 
+            cout << "Found: Task: " << reminders[i].task 
                  << ", Date: " << reminders[i].date 
                  << ", Time: " << reminders[i].time << endl;
+            found = true;
         }
     }
 
     if (!found) {
-        cout << "No reminders matched the keyword." << endl;
+        cout << "No reminders matched your search." << endl;
     }
+}
+
+// Function to edit a reminder (NEW FEATURE)
+void editReminder() {
+    if (reminders.empty()) {
+        cout << "No reminders to edit." << endl;
+        return;
+    }
+
+    viewReminders();  // Show current reminders
+    int index;
+    cout << "Enter the number of the reminder to edit: ";
+    cin >> index;
+
+    if (index < 1 || index > reminders.size()) {
+        cout << "Invalid number. No reminder edited." << endl;
+        return;
+    }
+
+    Reminder &reminderToEdit = reminders[index - 1];
+    cout << "Editing Reminder: Task: " << reminderToEdit.task 
+         << ", Date: " << reminderToEdit.date 
+         << ", Time: " << reminderToEdit.time << endl;
+
+    cout << "Enter new task (leave blank to keep unchanged): ";
+    cin.ignore();
+    string newTask;
+    getline(cin, newTask);
+    if (!newTask.empty()) reminderToEdit.task = newTask;
+
+    cout << "Enter new date (leave blank to keep unchanged): ";
+    string newDate;
+    getline(cin, newDate);
+    if (!newDate.empty()) reminderToEdit.date = newDate;
+
+    cout << "Enter new time (leave blank to keep unchanged): ";
+    string newTime;
+    getline(cin, newTime);
+    if (!newTime.empty()) reminderToEdit.time = newTime;
+
+    cout << "Reminder updated successfully!" << endl;
 }
 
 // Main function
@@ -104,11 +144,11 @@ int main() {
         cout << "1. Set Reminder" << endl;
         cout << "2. View Reminders" << endl;
         cout << "3. Delete Reminder" << endl;
-        cout << "4. Search Reminder" << endl;  // NEW OPTION
-        cout << "5. Exit" << endl;
+        cout << "4. Search Reminder" << endl;
+        cout << "5. Edit Reminder" << endl;  // NEW OPTION
+        cout << "6. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
-        cin.ignore();  // To ignore the leftover newline character in the input buffer
 
         switch (choice) {
             case 1:
@@ -124,6 +164,9 @@ int main() {
                 searchReminder();  // Call function to search reminders
                 break;
             case 5:
+                editReminder();  // Call function to edit a reminder
+                break;
+            case 6:
                 cout << "Exiting program..." << endl;
                 return 0;  // Exit the program
             default:
