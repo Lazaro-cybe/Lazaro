@@ -48,7 +48,7 @@ void viewReminders() {
     }
 }
 
-// Function to delete a reminder (NEW FEATURE)
+// Function to delete a reminder
 void deleteReminder() {
     if (reminders.empty()) {
         cout << "No reminders to delete." << endl;
@@ -68,6 +68,34 @@ void deleteReminder() {
     }
 }
 
+// Function to search reminders by keyword (NEW FEATURE)
+void searchReminder() {
+    if (reminders.empty()) {
+        cout << "No reminders to search." << endl;
+        return;
+    }
+
+    string keyword;
+    cout << "Enter a keyword to search in tasks: ";
+    cin.ignore();  // Clear input buffer
+    getline(cin, keyword);
+
+    bool found = false;
+    cout << "Search results:" << endl;
+    for (size_t i = 0; i < reminders.size(); ++i) {
+        if (reminders[i].task.find(keyword) != string::npos) {
+            found = true;
+            cout << i + 1 << ". Task: " << reminders[i].task 
+                 << ", Date: " << reminders[i].date 
+                 << ", Time: " << reminders[i].time << endl;
+        }
+    }
+
+    if (!found) {
+        cout << "No reminders matched the keyword." << endl;
+    }
+}
+
 // Main function
 int main() {
     int choice;
@@ -75,8 +103,9 @@ int main() {
         cout << "\n--- Social Media Reminder Program ---" << endl;
         cout << "1. Set Reminder" << endl;
         cout << "2. View Reminders" << endl;
-        cout << "3. Delete Reminder" << endl;  // NEW OPTION
-        cout << "4. Exit" << endl;
+        cout << "3. Delete Reminder" << endl;
+        cout << "4. Search Reminder" << endl;  // NEW OPTION
+        cout << "5. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
         cin.ignore();  // To ignore the leftover newline character in the input buffer
@@ -92,6 +121,9 @@ int main() {
                 deleteReminder();  // Call function to delete a reminder
                 break;
             case 4:
+                searchReminder();  // Call function to search reminders
+                break;
+            case 5:
                 cout << "Exiting program..." << endl;
                 return 0;  // Exit the program
             default:
