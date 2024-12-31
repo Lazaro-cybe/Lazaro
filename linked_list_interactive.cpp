@@ -39,6 +39,25 @@ void reverse(Node*& head) {
     head = prev;
 }
 
+// New function to find and display the middle element
+void findMiddle(Node* head) {
+    if (!head) {
+        cout << "The list is empty.\n";
+        return;
+    }
+    
+    Node* slow = head;
+    Node* fast = head;
+    
+    // Fast pointer moves twice as fast as slow
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+    cout << "Middle element: " << slow->data << endl;
+}
+
 int main() {
     Node* head = nullptr;
     int n, value;
@@ -58,5 +77,9 @@ int main() {
     reverse(head);
     cout << "Reversed List: ";
     display(head);
+
+    // Call the new function to find the middle element
+    findMiddle(head);
+
     return 0;
 }
