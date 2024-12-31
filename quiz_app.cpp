@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 struct Question {
@@ -14,10 +15,11 @@ class Quiz {
 private:
     vector<Question> questions;
     string quizFile;
+    string leaderboardFile;
     int score;
 
 public:
-    Quiz(string filename) : quizFile(filename), score(0) {}
+    Quiz(string filename, string leaderboardFilename) : quizFile(filename), leaderboardFile(leaderboardFilename), score(0) {}
 
     void createQuiz() {
         int numQuestions;
@@ -116,6 +118,50 @@ public:
         }
 
         cout << "\nQuiz completed! Your score: " << score << " out of " << questions.size() << "\n";
+        saveScore();
+    }
+
+    void saveScore() {
+        ofstream file(leaderboardFile, ios::app);
+        if (!file) {
+            cerr << "Error: Unable to save score to leaderboard.\n";
+            return;
+        }
+
+        string playerName;
+        cout << "Enter your name for the leaderboard: ";
+        cin.ignore();
+        getline(cin, playerName);
+
+        file << playerName << " " << score << endl;
+        file.close();
+        cout << "Score saved to leaderboard!\n";
+    }
+
+    void viewLeaderboard() {
+        ifstream file(leaderboardFile);
+        if (!file) {
+            cerr << "Error: Unable to load leaderboard.\n";
+            return;
+        }
+
+        vector<pair<string, int>> leaderboard;
+        string name;
+        int score;
+        while (file >> name >> score) {
+            leaderboard.push_back({name, score});
+        }
+        file.close();
+
+        // Sort leaderboard in descending order of scores
+        sort(leaderboard.begin(), leaderboard.end(), [](const pair<string, int> &a, const pair<string, int> &b) {
+            return b.second < a.second;
+        });
+
+        cout << "\nLeaderboard:\n";
+        for (size_t i = 0; i < leaderboard.size(); i++) {
+            cout << i + 1 << ". " << leaderboard[i].first << ": " << leaderboard[i].second << endl;
+        }
     }
 
     void viewResults() {
@@ -124,7 +170,7 @@ public:
 };
 
 int main() {
-    Quiz quiz("quiz_data.txt");
+    Quiz quiz("quiz_data.txt", "leaderboard.txt");
     int choice;
 
     do {
@@ -132,7 +178,8 @@ int main() {
         cout << "1. Create Quiz\n";
         cout << "2. Take Quiz\n";
         cout << "3. View Results\n";
-        cout << "4. Exit\n";
+        cout << "4. View Leaderboard\n"; // New option for leaderboard
+        cout << "5. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -147,13 +194,16 @@ int main() {
                 quiz.viewResults();
                 break;
             case 4:
+                quiz.viewLeaderboard();
+                break;
+            case 5:
                 cout << "Exiting application. Goodbye!\n";
                 break;
             default:
                 cout << "Invalid choice. Please try again.\n";
         }
 
-    } while (choice != 4);
+    } while (choice != 5);
 
     return 0;
 }
