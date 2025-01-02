@@ -110,6 +110,11 @@ int main() {
         cout << "Invalid starting node. It should be in range [1, " << nodes << "]." << endl;
         return 1;
     }
+    
+    // Perform BFS from the starting node
+    cout << "BFS starting from node " << startNode << ": ";
+    bfs(startNode, graph);
+    cout << endl;
 
     cout << "BFS starting from node " << startNode << ": ";
     bfs(startNode, graph);
