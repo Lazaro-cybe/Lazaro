@@ -91,6 +91,12 @@ int main() {
     for (int i = 0; i < edges; ++i) {
         int u, v;
         cin >> u >> v;
+
+       // Input validation for edges
+        if (u < 1 || u > nodes || v < 1 || v > nodes) {
+            cout << "Invalid edge: (" << u << ", " << v << "). Skipping this edge." << endl;
+            continue;
+                 }   
         graph[u].push_back(v);
         graph[v].push_back(u); // Remove this line if the graph is directed
     }
