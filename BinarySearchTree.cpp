@@ -1,4 +1,3 @@
-// Task 1: Binary Search Tree Implementation
 #include <iostream>
 using namespace std;
 
@@ -26,6 +25,16 @@ Node* insertNode(Node* root, int value) {
     return root;
 }
 
+bool searchNode(Node* root, int value) {
+    if (root == nullptr) return false;
+    if (root->data == value) return true;
+
+    if (value < root->data)
+        return searchNode(root->left, value);
+    else
+        return searchNode(root->right, value);
+}
+
 void inorderTraversal(Node* root) {
     if (root == nullptr) return;
 
@@ -36,7 +45,7 @@ void inorderTraversal(Node* root) {
 
 int main() {
     Node* root = nullptr;
-    int n, value;
+    int n, value, searchValue;
 
     cout << "Enter the number of nodes to insert: ";
     cin >> n;
@@ -49,5 +58,14 @@ int main() {
 
     cout << "In-order Traversal: ";
     inorderTraversal(root);
+
+    cout << "\nEnter a value to search: ";
+    cin >> searchValue;
+
+    if (searchNode(root, searchValue))
+        cout << searchValue << " exists in the tree.\n";
+    else
+        cout << searchValue << " does not exist in the tree.\n";
+
     return 0;
 }
