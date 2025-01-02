@@ -116,6 +116,10 @@ int main() {
     bfs(startNode, graph);
     cout << endl;
 
+    // Explore disconnected components
+    cout << "Exploring disconnected components:" << endl;
+    bfsDisconnected(graph);
+
     cout << "BFS starting from node " << startNode << ": ";
     bfs(startNode, graph);
     return 0;
