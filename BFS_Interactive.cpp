@@ -120,7 +120,9 @@ int main() {
     cout << "Exploring disconnected components:" << endl;
     bfsDisconnected(graph);
 
-    cout << "BFS starting from node " << startNode << ": ";
-    bfs(startNode, graph);
+        // Find shortest paths
+    cout << "Finding shortest paths:" << endl;
+    shortestPath(startNode, graph);
+
     return 0;
 }
