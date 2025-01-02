@@ -51,6 +51,33 @@ void bfsDisconnected(const vector<vector<int>>& graph) {
     }
 }
 
+// Find shortest path from a starting node using BFS
+void shortestPath(int startNode, const vector<vector<int>>& graph) {
+    vector<int> distance(graph.size(), -1);
+    queue<int> q;
+
+    distance[startNode] = 0;
+    q.push(startNode);
+
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+
+        for (int neighbor : graph[node]) {
+            if (distance[neighbor] == -1) {
+                distance[neighbor] = distance[node] + 1;
+                q.push(neighbor);
+            }
+        }
+    }
+
+    cout << "Shortest distances from node " << startNode << ":" << endl;
+    for (int i = 1; i < distance.size(); ++i) {
+        cout << "Node " << i << ": " 
+             << (distance[i] == -1 ? "Not reachable" : to_string(distance[i])) << endl;
+    }
+}
+
 int main() {
     int nodes, edges;
     cout << "Enter the number of nodes: ";
