@@ -25,6 +25,31 @@ void bfs(int startNode, const vector<vector<int>>& graph) {
         }
     }
 }
+// Extended BFS to explore disconnected components
+void bfsDisconnected(const vector<vector<int>>& graph) {
+    vector<bool> visited(graph.size(), false);
+    for (int startNode = 1; startNode < graph.size(); ++startNode) {
+        if (!visited[startNode]) {
+            cout << "BFS starting from node " << startNode << ": ";
+            queue<int> q;
+            q.push(startNode);
+            visited[startNode] = true;
+
+            while (!q.empty()) {
+                int node = q.front();
+                q.pop();
+                cout << node << " ";
+                for (int neighbor : graph[node]) {
+                    if (!visited[neighbor]) {
+                        visited[neighbor] = true;
+                        q.push(neighbor);
+                    }
+                }
+            }
+            cout << endl;
+        }
+    }
+}
 
 int main() {
     int nodes, edges;
