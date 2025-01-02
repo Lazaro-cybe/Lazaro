@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <string>
 using namespace std;
 
 void bfs(int startNode, const vector<vector<int>>& graph) {
