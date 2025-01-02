@@ -105,6 +105,12 @@ int main() {
     cout << "Enter the starting node for BFS: ";
     cin >> startNode;
 
+    // Input validation for the starting node
+    if (startNode < 1 || startNode > nodes) {
+        cout << "Invalid starting node. It should be in range [1, " << nodes << "]." << endl;
+        return 1;
+    }
+
     cout << "BFS starting from node " << startNode << ": ";
     bfs(startNode, graph);
     return 0;
